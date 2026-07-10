@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:karobarone/core/providers/theme_provider.dart';
 import 'package:karobarone/features/home/screens/home.dart';
-import 'package:karobarone/config/theme.dart';
+import 'package:karobarone/config/themes.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(create: (_) => ThemeProvider(), child: MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -11,10 +15,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = context.watch<ThemeProvider>();
     return MaterialApp(
       title: 'KarobarOne',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.light(),
+      theme: themeProvider.themedata,
+
       home: Home(),
     );
   }

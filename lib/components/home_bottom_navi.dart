@@ -13,7 +13,7 @@ class _HomeBottomNaviState extends State<HomeBottomNavi> {
   @override
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.onSurface,
       color: Theme.of(context).colorScheme.primary,
       onTap: (index) {},
       items: [
