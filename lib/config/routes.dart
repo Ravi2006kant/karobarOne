@@ -5,6 +5,7 @@ import 'package:karobarone/features/home/screens/home.dart';
 import 'package:karobarone/features/orders/screens/order_detail_screen.dart';
 import 'package:karobarone/features/orders/screens/order_list_screen.dart';
 import 'package:karobarone/features/profile/profile_screen.dart';
+import 'package:karobarone/features/search/screens/search_screen.dart';
 
 class Routes extends StatelessWidget {
   const Routes({super.key});
@@ -19,6 +20,7 @@ class Routes extends StatelessWidget {
         'orderList': (context) => OrderListScreen(),
         'orderDetail': (context) => OrderDetailScreen(),
         'profile': (context) => ProfileScreen(),
+        'search': (context) => SearchScreen()
       },
     );
   }

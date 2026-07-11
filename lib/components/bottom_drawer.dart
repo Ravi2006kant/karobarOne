@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:karobarone/components/bottom_icon.dart';
 import 'package:karobarone/components/listbutton.dart';
+import 'package:karobarone/features/drawer/about.dart';
+import 'package:karobarone/features/drawer/help_support.dart';
+import 'package:karobarone/features/setting/setting_screen.dart';
 
 class BottomDrawer extends StatelessWidget {
   BottomDrawer({super.key});
   TextStyle txt = TextStyle(color: Colors.white);
+  ButtonStyle btn = ElevatedButton.styleFrom(backgroundColor: Colors.white);
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -14,7 +19,7 @@ class BottomDrawer extends StatelessWidget {
       child: Column(
         mainAxisAlignment: .spaceAround,
         children: [
-          CircleAvatar(radius: 50),
+          CircleAvatar(backgroundColor: Colors.red, radius: 50),
 
           Text("UserName", style: txt),
           SizedBox(height: 5),
@@ -26,12 +31,14 @@ class BottomDrawer extends StatelessWidget {
             },
           ),
 
-          SizedBox(height: 5),
           ListTile(
             leading: BottomIcon(ico: Icons.settings),
             title: Text('Settings', style: txt),
             onTap: () {
-              // Handle settings tap
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingScreen()),
+              );
             },
           ),
 
@@ -39,7 +46,10 @@ class BottomDrawer extends StatelessWidget {
             leading: BottomIcon(ico: Icons.help_rounded),
             title: Text('Help/Support', style: txt),
             onTap: () {
-              // Handle about tap
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HelpSupport()),
+              );
             },
           ),
 
@@ -47,11 +57,15 @@ class BottomDrawer extends StatelessWidget {
             leading: BottomIcon(ico: Icons.info),
             title: Text('About us', style: txt),
             onTap: () {
-              // Handle about tap
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => About()),
+              );
             },
           ),
           ListButton(),
-          ElevatedButton(onPressed: () {}, child: Text("Log Out")),
+
+          ElevatedButton(style: btn, onPressed: () {}, child: Text("Log Out")),
         ],
       ),
     );

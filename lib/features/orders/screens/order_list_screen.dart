@@ -5,6 +5,6 @@ class OrderListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Text("order lsit screen"));
+    return Scaffold(body: Text("order lsit screen",style: TextStyle(color: Colors.red),));
   }
 }

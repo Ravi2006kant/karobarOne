@@ -2,23 +2,26 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:karobarone/components/bottom_icon.dart';
 
-class HomeBottomNavi extends StatefulWidget {
-  const HomeBottomNavi({super.key});
+class HomeBottomNavi extends StatelessWidget {
+  final int currentIndex;
+  final Function(int) tap;
+  const HomeBottomNavi({
+    super.key,
+    required this.currentIndex,
+    required this.tap,
+  });
 
-  @override
-  State<HomeBottomNavi> createState() => _HomeBottomNaviState();
-}
-
-class _HomeBottomNaviState extends State<HomeBottomNavi> {
   @override
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
-      backgroundColor: Theme.of(context).colorScheme.onSurface,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       color: Theme.of(context).colorScheme.primary,
-      onTap: (index) {},
+      index: currentIndex,
+      onTap: tap,
+      animationCurve: Curves.easeInCubic,
       items: [
         BottomIcon(ico: Icons.home),
-        BottomIcon(ico: Icons.search),
+        BottomIcon(ico: Icons.shopping_cart),
         BottomIcon(ico: Icons.inventory_2_outlined),
         BottomIcon(ico: Icons.favorite),
         BottomIcon(ico: Icons.person),
