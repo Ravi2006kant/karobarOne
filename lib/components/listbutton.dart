@@ -9,9 +9,12 @@ class ListButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Text("Dark Mode", style: TextStyle(color: Colors.white)),
+      leading: Icon(Icons.dark_mode_rounded, color: Colors.white),
+      title: Text("Dark Mode", style: TextStyle(color: Colors.white)),
+
       trailing: CupertinoSwitch(
         activeTrackColor: Theme.of(context).colorScheme.inversePrimary,
+        inactiveTrackColor: Colors.purple.shade300,
         value: context.read<ThemeProvider>().isDark,
         onChanged: (value) {
           context.read<ThemeProvider>().toggle();

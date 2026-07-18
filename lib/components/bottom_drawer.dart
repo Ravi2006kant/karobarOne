@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:karobarone/components/bottom_icon.dart';
 import 'package:karobarone/components/listbutton.dart';
+import 'package:karobarone/features/auth/screens/login_screen.dart';
 import 'package:karobarone/features/drawer/about.dart';
 import 'package:karobarone/features/drawer/help_support.dart';
 import 'package:karobarone/features/setting/setting_screen.dart';
@@ -65,7 +66,16 @@ class BottomDrawer extends StatelessWidget {
           ),
           ListButton(),
 
-          ElevatedButton(style: btn, onPressed: () {}, child: Text("Log Out")),
+          ElevatedButton(
+            style: btn,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+              );
+            },
+            child: Text("Log Out"),
+          ),
         ],
       ),
     );

@@ -52,6 +52,7 @@ class _HomeState extends State<Home> {
                   context,
                   MaterialPageRoute(builder: (context) => SearchScreen()),
                 );
+                // navigatorpsnames approutes.cart
               },
               ico: Icons.search,
             ),

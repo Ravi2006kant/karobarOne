@@ -10,7 +10,7 @@ class Themes {
       surfaceTint: Colors.black,
     ),
   );
-
+Color purple = Color(0xFF6056EA);
   ThemeData darkmode = ThemeData(
     colorScheme: ColorScheme.dark(
       brightness: Brightness.dark,

@@ -11,7 +11,7 @@ class SearchScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primary,
         actions: [],
       ),
-      body: Text("heleo", style: TextStyle(color: Colors.red)),
+      body: Text("search", style: TextStyle(color: Colors.red)),
     );
   }
 }

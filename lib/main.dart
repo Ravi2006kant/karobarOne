@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:karobarone/config/app_routes.dart';
 import 'package:karobarone/core/providers/theme_provider.dart';
 import 'package:karobarone/features/auth/screens/login_screen.dart';
 import 'package:karobarone/features/home/screens/home.dart';
@@ -19,24 +20,11 @@ class MyApp extends StatelessWidget {
     final themeProvider = context.watch<ThemeProvider>();
     return MaterialApp(
       title: 'KarobarOne',
+      // initialRoute: AppRoutes.home,
+      // routes: AppRoutes.routes,
       debugShowCheckedModeBanner: false,
       theme: themeProvider.themedata,
-
-      home: Home(),
+      home: LoginScreen(),
     );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold();
   }
 }
