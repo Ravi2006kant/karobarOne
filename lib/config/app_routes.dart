@@ -7,6 +7,6 @@ class AppRoutes {
   static const String order = '/';
 
   static Map<String, WidgetBuilder> routes = {
-    home: (context) => const HomeScreen(),
+    home: (context) =>  HomeScreen(),
   };
 }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:karobarone/features/auth/screens/otp_screen.dart';
 import 'package:karobarone/features/auth/screens/register_screen.dart';
-import 'package:karobarone/features/home/screens/home.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -21,7 +19,7 @@ class LoginScreen extends StatelessWidget {
           ),
 
           Expanded(
-            flex: 2,
+            flex: 1,
             child: ClipRRect(
               borderRadius: BorderRadiusGeometry.directional(
                 topEnd: Radius.circular(25),
@@ -33,46 +31,6 @@ class LoginScreen extends StatelessWidget {
                 color: Colors.white,
                 child: Column(
                   children: [
-                    //button container
-                    // Container(
-                    //   height: 50,
-                    //   margin: EdgeInsets.symmetric(
-                    //     horizontal: 25,
-                    //     vertical: 15,
-                    //   ),
-                    //   decoration: BoxDecoration(
-                    //     color: Theme.of(context).colorScheme.primary,
-                    //     borderRadius: BorderRadius.circular(25),
-                    //   ),
-                    //   child: Row(
-                    //     children: [
-                    //       Expanded(
-                    //         child: Container(
-                    //           padding: EdgeInsets.symmetric(
-                    //             horizontal: 46,
-                    //             vertical: 5,
-                    //           ),
-
-                    //           margin: EdgeInsets.all(5),
-                    //           decoration: BoxDecoration(
-                    //             borderRadius: BorderRadius.circular(25),
-                    //             color: Colors.white,
-                    //           ),
-
-                    //           child: Center(
-                    //             child: Text(
-                    //               "LOGIN",
-                    //               style: TextStyle(
-                    //                 fontWeight: .bold,
-                    //                 color: Colors.black,
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                     SizedBox(height: 20),
                     Center(
                       child: Text(
@@ -170,9 +128,13 @@ class LoginScreen extends StatelessWidget {
                         foregroundColor: WidgetStatePropertyAll(Colors.white),
                       ),
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushNamed(
                           context,
-                          MaterialPageRoute(builder: (context) => OtpScreen()),
+                          'otp',
+                          arguments: {
+                            'contact': mobileCont.text,
+                            'isRegister': false,
+                          },
                         );
                       },
                       child: Text("Send OTP"),

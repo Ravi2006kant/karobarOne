@@ -7,7 +7,9 @@ class Themes {
       primary: Color(0xFF6056EA),
       onPrimary: Color.fromARGB(255, 110, 102, 226),
       onSurface: Colors.white,
+      onSecondary: Colors.white,
       surfaceTint: Colors.black,
+      secondary:  Color(0xFF6056EA)
     ),
   );
 Color purple = Color(0xFF6056EA);
@@ -16,8 +18,10 @@ Color purple = Color(0xFF6056EA);
       brightness: Brightness.dark,
       primary: Colors.grey.shade900,
       onSurface: Colors.grey.shade700,
+      onSecondary:Colors.grey.shade900 ,
       surfaceTint: Colors.white,
       inversePrimary: Color(0xFF6056EA),
+      secondary:  Color(0xFF6056EA)
     ),
   );
 }

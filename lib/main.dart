@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:karobarone/config/app_routes.dart';
 import 'package:karobarone/core/providers/theme_provider.dart';
 import 'package:karobarone/features/auth/screens/login_screen.dart';
+import 'package:karobarone/features/auth/screens/otp_screen.dart';
 import 'package:karobarone/features/home/screens/home.dart';
-import 'package:karobarone/config/themes.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -22,9 +21,10 @@ class MyApp extends StatelessWidget {
       title: 'KarobarOne',
       // initialRoute: AppRoutes.home,
       // routes: AppRoutes.routes,
+      routes: {'otp': (context) => OtpScreen()},
       debugShowCheckedModeBanner: false,
       theme: themeProvider.themedata,
-      home: LoginScreen(),
+      home: Home(),
     );
   }
 }

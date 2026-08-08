@@ -6,8 +6,12 @@ import 'package:pinput/pinput.dart';
 class OtpScreen extends StatelessWidget {
   OtpScreen({super.key});
   TextEditingController otpcont = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
+    final String contact = args['contact'];
+    final bool isRegister = args['isRegister'];
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
 
@@ -18,7 +22,7 @@ class OtpScreen extends StatelessWidget {
           ),
 
           Expanded(
-            flex: 2,
+            flex: 1,
             child: ClipRRect(
               borderRadius: BorderRadiusGeometry.directional(
                 topEnd: Radius.circular(25),
@@ -43,7 +47,10 @@ class OtpScreen extends StatelessWidget {
                     ),
 
                     SizedBox(height: 5),
-                    Text("Enter the Security code we sent to"),
+                    Text(
+                      "Enter the Security code we sent to",
+                      style: TextStyle(color: Colors.black),
+                    ),
                     TextButton(
                       onPressed: () {
                         Navigator.pop(context);
@@ -51,7 +58,7 @@ class OtpScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: .center,
                         children: [
-                          Center(child: Text("1234567890")),
+                          Center(child: Text(contact)),
                           SizedBox(width: 5),
                           Icon(Icons.edit),
                         ],

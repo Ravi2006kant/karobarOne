@@ -19,7 +19,7 @@ class RegisterScreen extends StatelessWidget {
           ),
 
           Expanded(
-            flex: 2,
+            flex: 1,
             child: ClipRRect(
               borderRadius: BorderRadiusGeometry.directional(
                 topEnd: Radius.circular(25),
@@ -31,47 +31,7 @@ class RegisterScreen extends StatelessWidget {
                 color: Colors.white,
                 child: Column(
                   children: [
-                    //button container
-                    // Container(
-                    //   height: 50,
-                    //   margin: EdgeInsets.symmetric(
-                    //     horizontal: 25,
-                    //     vertical: 15,
-                    //   ),
-                    //   decoration: BoxDecoration(
-                    //     color: Theme.of(context).colorScheme.primary,
-                    //     borderRadius: BorderRadius.circular(25),
-                    //   ),
-                    //   child: Row(
-                    //     children: [
-                    //       Expanded(
-                    //         child: Container(
-                    //           padding: EdgeInsets.symmetric(
-                    //             horizontal: 46,
-                    //             vertical: 5,
-                    //           ),
-
-                    //           margin: EdgeInsets.all(5),
-                    //           decoration: BoxDecoration(
-                    //             borderRadius: BorderRadius.circular(25),
-                    //             color: Colors.white,
-                    //           ),
-
-                    //           child: Center(
-                    //             child: Text(
-                    //               "LOGIN",
-                    //               style: TextStyle(
-                    //                 fontWeight: .bold,
-                    //                 color: Colors.black,
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 15),
                     Center(
                       child: Text(
                         "R E G I S T E R",
@@ -188,7 +148,7 @@ class RegisterScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 15),
+                    SizedBox(height: 10),
                     ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(
@@ -197,9 +157,13 @@ class RegisterScreen extends StatelessWidget {
                         foregroundColor: WidgetStatePropertyAll(Colors.white),
                       ),
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushNamed(
                           context,
-                          MaterialPageRoute(builder: (context) => OtpScreen()),
+                          'otp',
+                          arguments: {
+                            'contact': mobileCont.text,
+                            'isRegister': false,
+                          },
                         );
                       },
                       child: Text("Register"),

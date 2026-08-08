@@ -5,9 +5,13 @@ import 'package:karobarone/components/bottom_icon.dart';
 import 'package:karobarone/components/home_bottom_navi.dart';
 import 'package:karobarone/components/listbutton.dart';
 import 'package:karobarone/core/providers/theme_provider.dart';
+import 'package:karobarone/features/address/address_screen.dart';
 import 'package:karobarone/features/cart/screens/cart_screen.dart';
+import 'package:karobarone/features/category/category_screen.dart';
 import 'package:karobarone/features/home/screens/home_screen.dart';
+import 'package:karobarone/features/notification/notification_screen.dart';
 import 'package:karobarone/features/orders/screens/order_list_screen.dart';
+import 'package:karobarone/features/products/screens/product_list_screen.dart';
 import 'package:karobarone/features/profile/profile_screen.dart';
 import 'package:karobarone/features/search/screens/search_screen.dart';
 import 'package:karobarone/features/wishlist/screens/wishlist_screen.dart';
@@ -25,7 +29,7 @@ class _HomeState extends State<Home> {
 
   final List<Widget> _pages = [
     HomeScreen(),
-    CartScreen(),
+    CategoryScreen(),
     OrderListScreen(),
     WishlistScreen(),
     ProfileScreen(),
@@ -43,18 +47,26 @@ class _HomeState extends State<Home> {
         foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).colorScheme.primary,
         actions: [
-          AppbarIcon(tap: () {}, ico: Icons.notifications),
+          AppbarIcon(
+            tap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AddressScreen()),
+              );
+            },
+            ico: Icons.notifications,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: AppbarIcon(
               tap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SearchScreen()),
+                  MaterialPageRoute(builder: (context) => CartScreen()),
                 );
                 // navigatorpsnames approutes.cart
               },
-              ico: Icons.search,
+              ico: Icons.shopping_cart,
             ),
           ),
         ],

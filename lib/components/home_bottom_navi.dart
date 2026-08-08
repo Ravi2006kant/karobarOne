@@ -18,10 +18,11 @@ class HomeBottomNavi extends StatelessWidget {
       color: Theme.of(context).colorScheme.primary,
       index: currentIndex,
       onTap: tap,
+      height: 55,
       animationCurve: Curves.easeInCubic,
       items: [
         BottomIcon(ico: Icons.home),
-        BottomIcon(ico: Icons.shopping_cart),
+        BottomIcon(ico: Icons.category_rounded),
         BottomIcon(ico: Icons.inventory_2_outlined),
         BottomIcon(ico: Icons.favorite),
         BottomIcon(ico: Icons.person),
