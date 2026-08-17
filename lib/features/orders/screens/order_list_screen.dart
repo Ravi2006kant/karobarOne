@@ -29,12 +29,12 @@ class OrderListScreen extends StatelessWidget {
                 return Container(
                   child: Row(
                     children: [
-                      // Image.network(products[index]['images'][0], width: 100),
+                      Image.network(products[index].thumbnail[0], width: 100),
                       Column(
                         children: [
                           Row(
                             children: [
-                              Text(products[index]['title']),
+                              Text(products[index].title),
                               IconButton(
                                 onPressed: () {},
                                 icon: Icon(Icons.favorite),
@@ -43,17 +43,17 @@ class OrderListScreen extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Text(products[index]['price'].toString()),
+                              Text(products[index].price.toString()),
                               Text(
-                                products[index]['discount'].toString(),
+                                products[index].discount.toString(),
                                 style: TextStyle(
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
                           ),
-                          Text(products[index]['category']),
-                          Text(products[index]['rating'].toString()),
+                          Text(products[index].category),
+                          Text(products[index].rating.toString()),
                         ],
                       ),
                     ],

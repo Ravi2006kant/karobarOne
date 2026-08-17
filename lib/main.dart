@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       routes: {'otp': (context) => OtpScreen()},
       debugShowCheckedModeBanner: false,
       theme: themeProvider.themedata,
-      home: Home(),
+      home: LoginScreen(),
     );
   }
 }

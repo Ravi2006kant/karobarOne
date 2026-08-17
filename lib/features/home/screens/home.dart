@@ -13,6 +13,7 @@ import 'package:karobarone/features/notification/notification_screen.dart';
 import 'package:karobarone/features/orders/screens/order_list_screen.dart';
 import 'package:karobarone/features/products/screens/product_list_screen.dart';
 import 'package:karobarone/features/profile/profile_screen.dart';
+import 'package:karobarone/features/profile/sample_profile.dart';
 import 'package:karobarone/features/search/screens/search_screen.dart';
 import 'package:karobarone/features/wishlist/screens/wishlist_screen.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +33,7 @@ class _HomeState extends State<Home> {
     CategoryScreen(),
     OrderListScreen(),
     WishlistScreen(),
-    ProfileScreen(),
+    SampleProfile(),
   ];
 
   @override

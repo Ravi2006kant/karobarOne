@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:karobarone/features/auth/screens/otp_screen.dart';
 import 'package:karobarone/features/auth/screens/register_screen.dart';
+import 'package:karobarone/practise/api/api_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
   TextEditingController mobileCont = TextEditingController();
   TextEditingController emailCont = TextEditingController();
+
+  void navi() async {
+    final data = await ApiService().login(mobileCont.text, emailCont.text);
+
+    final token = data['accessToken'];
+    final refreshToken = data['refreshToken'];
+    final username = data['username'];
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', token);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +27,7 @@ class LoginScreen extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: Container(child: Center(child: Text("KarobarOne"))),
+            child: SizedBox(child: Center(child: Text("KarobarOne"))),
           ),
 
           Expanded(
@@ -128,6 +140,7 @@ class LoginScreen extends StatelessWidget {
                         foregroundColor: WidgetStatePropertyAll(Colors.white),
                       ),
                       onPressed: () {
+                        navi();
                         Navigator.pushNamed(
                           context,
                           'otp',
