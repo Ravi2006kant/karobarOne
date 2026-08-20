@@ -59,7 +59,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                         Padding(
                           padding: const EdgeInsets.all(5),
                           child: Image.network(
-                            products[index]['images'][0],
+                            products[index]['categoryName'],
                             width: 100,
                           ),
                         ),

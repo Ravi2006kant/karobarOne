@@ -8,42 +8,75 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverToBoxAdapter(
-            child: SearchBar(
-              backgroundColor: WidgetStatePropertyAll(Colors.yellow),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-              margin: EdgeInsets.all(20),
-              width: 150,
-              height: 150,
-
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text("Banner"),
-            ),
-          ), //banner
-          SliverToBoxAdapter(child: Row(children: [Text("category")])),
+          //Banner
           SliverToBoxAdapter(
             child: Row(
               children: [
-                Icon(Icons.face, size: 50),
-                Icon(Icons.face, size: 50),
-                Icon(Icons.face, size: 50),
-                Icon(Icons.face, size: 50),
-                Icon(Icons.face, size: 50),
+                Container(
+                  margin: EdgeInsets.all(20),
+                  width: 150,
+                  height: 150,
+
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text("Banner"),
+                ),
+                Container(
+                  margin: EdgeInsets.all(20),
+                  width: 150,
+                  height: 150,
+
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text("Banner"),
+                ),
+                // Container(
+                //   margin: EdgeInsets.all(20),
+                //   width: 150,
+                //   height: 150,
+
+                //   decoration: BoxDecoration(
+                //     color: Colors.red,
+                //     borderRadius: BorderRadius.circular(10),
+                //   ),
+                //   child: Text("Banner"),
+                // ),
+              ],
+            ),
+          ), //banner
+          //categories
+          SliverToBoxAdapter(
+            child: Row(
+              mainAxisAlignment: .spaceBetween,
+              children: [
+                Text("Category", style: TextStyle(color: Colors.white)),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "View More",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
               ],
             ),
           ),
 
+          //category items
           SliverGrid(
-            delegate: SliverChildBuilderDelegate((context, index) {}),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+              crossAxisCount: 4,
+              childAspectRatio: 4.1,
             ),
+            delegate: SliverChildBuilderDelegate(childCount: 8, (
+              context,
+              index,
+            ) {
+              return Container(child: Icon(Icons.face));
+            }),
           ),
           SliverToBoxAdapter(child: Row(children: [Text("Featured product")])),
           SliverList.builder(
@@ -62,9 +95,26 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
+ // SliverToBoxAdapter(
+          //   child: ListView.builder(
+          //     itemCount: 4,
+          //     itemBuilder: (context, index) {
+          //       return Icon(Icons.card_travel);
+          //     },
+          //   ),
+          //   // child: Row(
+          //   //   children: [
+          //   //     Icon(Icons.face, size: 50),
+          //   //     Icon(Icons.face, size: 50),
+          //   //     Icon(Icons.face, size: 50),
+          //   //     Icon(Icons.face, size: 50),
+          //   //     Icon(Icons.face, size: 50),
+          //   //   ],
+          //   // ),
+          // ),
 
 // Column(
+
 //         children: [
 //           Padding(
 //             padding: const EdgeInsets.all(10),
