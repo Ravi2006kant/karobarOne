@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:karobarone/core/api/api_endpoints.dart';
 
 import 'package:karobarone/features/products/screens/product_list_screen.dart';
-import 'package:karobarone/practise/api/api_service.dart';
+
 import 'package:karobarone/shared/widgets/loading_indicator.dart';
 
 class CategoryScreen extends StatelessWidget {

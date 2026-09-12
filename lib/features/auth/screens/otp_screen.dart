@@ -1,22 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:karobarone/features/auth/screens/register_screen.dart';
+import 'package:karobarone/core/api/api_endpoints.dart';
 import 'package:karobarone/features/home/screens/home.dart';
 import 'package:pinput/pinput.dart';
 
 class OtpScreen extends StatelessWidget {
-  OtpScreen({super.key});
-  TextEditingController otpcont = TextEditingController();
+  const OtpScreen({super.key, required this.userId, required this.otpId});
+
+  final String userId;
+  final String otpId;
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Map;
-    final String contact = args['contact'];
-    final bool isRegister = args['isRegister'];
+    final TextEditingController otpcont = TextEditingController();
+    // final args = ModalRoute.of(context)!.settings.arguments as Map;
+    // final String contact = args['contact'];
+    // final bool isRegister = args['isRegister'];
+
+    // void pass() async {
+    //   if (otpcont.text == "0000") {
+    //     await AuthService().login(
+    //       name: widget.name,
+    //       mobile: widget.mobile,
+    //       email: widget.email,
+    //     );
+
+    //     Navigator.pushReplacement(
+    //       context,
+    //       MaterialPageRoute(builder: (_) => HomeScreen()),
+    //     );
+    //   }
+    // }
+
+
+final apiservice = ApiService();
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
-
       body: Column(
         children: [
+          // Text("otp screen"),
           Expanded(
             child: Container(child: Center(child: Text("KarobarOne"))),
           ),
@@ -58,7 +80,7 @@ class OtpScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: .center,
                         children: [
-                          Center(child: Text(contact)),
+                          // Center(child: Text(contact)),
                           SizedBox(width: 5),
                           Icon(Icons.edit),
                         ],
@@ -68,7 +90,9 @@ class OtpScreen extends StatelessWidget {
                     SizedBox(height: 25),
                     Center(
                       child: Pinput(
+                        length: 6,
                         controller: otpcont,
+                        
                         animationCurve: Curves.decelerate,
                       ),
                     ),
@@ -82,6 +106,7 @@ class OtpScreen extends StatelessWidget {
                         foregroundColor: WidgetStatePropertyAll(Colors.white),
                       ),
                       onPressed: () {
+                      final result =  apiservice.registerVerify(otpId, otpcont.text);
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => Home()),
@@ -89,6 +114,7 @@ class OtpScreen extends StatelessWidget {
                       },
                       child: Text("Verify"),
                     ),
+                    
                     SizedBox(height: 10),
                     Column(
                       mainAxisAlignment: .center,

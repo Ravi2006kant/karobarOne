@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:karobarone/config/themes.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  bool _isDark = false;
+  bool _isDark = true; //false to make the light deafult
 
   bool get isDark => _isDark;
 

@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:karobarone/config/app_routes.dart';
+import 'package:karobarone/core/api/api_endpoints.dart';
 import 'package:karobarone/features/auth/screens/otp_screen.dart';
 import 'package:karobarone/features/auth/screens/register_screen.dart';
-import 'package:karobarone/practise/api/api_service.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
   TextEditingController mobileCont = TextEditingController();
   TextEditingController emailCont = TextEditingController();
+  final TextEditingController passCont = TextEditingController();
+  bool isloading = false;
 
   void navi() async {
-    final data = await ApiService().login(mobileCont.text, emailCont.text);
+    final data = await ApiService().login(mobileCont.text, passCont.text);
 
-    final token = data['accessToken'];
-    final refreshToken = data['refreshToken'];
-    final username = data['username'];
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', token);
+    // final token = data['accessToken'];
+    // final refreshToken = data['refreshToken'];
+    // final username = data['username'];
+    // final prefs = await SharedPreferences.getInstance();
+    // await prefs.setString('token', token);
   }
 
   @override
@@ -27,11 +31,12 @@ class LoginScreen extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
+            flex: 2,
             child: SizedBox(child: Center(child: Text("KarobarOne"))),
           ),
 
           Expanded(
-            flex: 1,
+            flex: 2,
             child: ClipRRect(
               borderRadius: BorderRadiusGeometry.directional(
                 topEnd: Radius.circular(25),
@@ -57,35 +62,8 @@ class LoginScreen extends StatelessWidget {
                     SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25),
-
                       child: TextField(
-                        keyboardType: TextInputType.number,
-                        controller: mobileCont,
-                        style: TextStyle(color: Colors.black),
-                        decoration: InputDecoration(
-                          hintText: "Enter Mobile No.",
-                          hintStyle: TextStyle(color: Colors.black),
-                          fillColor: Colors.black,
-                          focusColor: Colors.black,
-                          prefixIcon: Icon(
-                            Icons.phone,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: TextField(
-                        keyboardType: TextInputType.text,
+                        keyboardType: TextInputType.emailAddress,
                         style: TextStyle(color: Colors.black),
                         controller: emailCont,
                         decoration: InputDecoration(
@@ -96,10 +74,37 @@ class LoginScreen extends StatelessWidget {
                             color: Theme.of(context).colorScheme.primary,
                           ),
                           enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25),
+                            borderRadius: BorderRadius.circular(15),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: TextField(
+                        keyboardType: TextInputType.number,
+                        obscureText: true,
+                        controller: passCont,
+                        style: TextStyle(color: Colors.black),
+                        decoration: InputDecoration(
+                          hintText: "Enter Password",
+                          hintStyle: TextStyle(color: Colors.black),
+                          fillColor: Colors.black,
+                          focusColor: Colors.black,
+                          prefixIcon: Icon(
+                            Icons.remove_red_eye_sharp,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
                           ),
                         ),
                       ),
@@ -139,18 +144,35 @@ class LoginScreen extends StatelessWidget {
                         ),
                         foregroundColor: WidgetStatePropertyAll(Colors.white),
                       ),
-                      onPressed: () {
-                        navi();
-                        Navigator.pushNamed(
-                          context,
-                          'otp',
-                          arguments: {
-                            'contact': mobileCont.text,
-                            'isRegister': false,
-                          },
-                        );
-                      },
-                      child: Text("Send OTP"),
+                      onPressed: isloading
+                          ? null
+                          : () {
+                              navi();
+                              // Navigator.pushNamed(context, AppRoutes.home);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      OtpScreen(userId: '', otpId: ''),
+                                ),
+                              );
+                            },
+                      child: isloading
+                          ? SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
+                                ),
+                              ),
+                            )
+                          : Text("Send Otp"),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text("Forget Password"),
                     ),
                   ],
                 ),

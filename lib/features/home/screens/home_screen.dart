@@ -48,6 +48,7 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ), //banner
+        
           //categories
           SliverToBoxAdapter(
             child: Row(
@@ -78,7 +79,11 @@ class HomeScreen extends StatelessWidget {
               return Container(child: Icon(Icons.face));
             }),
           ),
+         
+          //feature
           SliverToBoxAdapter(child: Row(children: [Text("Featured product")])),
+         
+          //feature items 
           SliverList.builder(
             itemCount: 3,
             itemBuilder: ((context, index) {
@@ -90,48 +95,47 @@ class HomeScreen extends StatelessWidget {
               );
             }),
           ),
+         
+ 
+          SliverToBoxAdapter(child: Text("Service"),),
+         
+            //category items
+          SliverGrid(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+              childAspectRatio: 4.1,
+            ),
+            delegate: SliverChildBuilderDelegate(childCount: 8, (
+              context,
+              index,
+            ) {
+              return Container(child: Icon(Icons.face));
+            }),
+          ),
+         
+          //feature
+          SliverToBoxAdapter(child: Row(children: [Text("Featured product")])),
+         
+          //feature items 
+          SliverList.builder(
+            itemCount: 3,
+            itemBuilder: ((context, index) {
+              return Container(
+                margin: EdgeInsets.all(10),
+                width: 50,
+                height: 50,
+                color: Colors.blue,
+              );
+            }),
+          ),
+         
+ 
+          SliverToBoxAdapter(child: Text("Service"),),
+
+        
         ],
       ),
     );
   }
 }
- // SliverToBoxAdapter(
-          //   child: ListView.builder(
-          //     itemCount: 4,
-          //     itemBuilder: (context, index) {
-          //       return Icon(Icons.card_travel);
-          //     },
-          //   ),
-          //   // child: Row(
-          //   //   children: [
-          //   //     Icon(Icons.face, size: 50),
-          //   //     Icon(Icons.face, size: 50),
-          //   //     Icon(Icons.face, size: 50),
-          //   //     Icon(Icons.face, size: 50),
-          //   //     Icon(Icons.face, size: 50),
-          //   //   ],
-          //   // ),
-          // ),
-
-// Column(
-
-//         children: [
-//           Padding(
-//             padding: const EdgeInsets.all(10),
-//             child: SearchBar(
-//               controller: searchCont,
-//               backgroundColor: WidgetStatePropertyAll(
-//                 Theme.of(context).colorScheme.onSecondary,
-//               ),
-//               textStyle: WidgetStatePropertyAll(TextStyle(color: Colors.white)),
-//             ),
-//           ),
-//           Expanded(
-//             child: SingleChildScrollView(
-//               child: Column(children: [
-//                 /*everythign will be here*/
-//                 ]),
-//             ),
-//           ),
-//         ],
-//       ),
+ 

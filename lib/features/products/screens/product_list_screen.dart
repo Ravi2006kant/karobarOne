@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:karobarone/components/like_button.dart';
+import 'package:karobarone/core/api/api_endpoints.dart';
 import 'package:karobarone/features/products/screens/product_detail_screen.dart';
 import 'package:karobarone/practise/api/api_service.dart';
 import 'package:karobarone/shared/widgets/loading_indicator.dart';
@@ -24,7 +25,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
         ),
       ),
       body: FutureBuilder(
-        future: apiService.getProductByCateogry(widget.slu),
+        future: apiService.getProductDetail(widget.slu),
 
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
