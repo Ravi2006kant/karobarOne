@@ -7,9 +7,9 @@ import 'package:karobarone/core/models/product_model.dart';
 class ApiService {
   static const String apiUrl = "https://karobarone-backend.onrender.com/api/v1";
 
-//AUTHENTICATION
+  //AUTHENTICATION
 
-Future<Map<String, dynamic>> register(
+  Future<Map<String, dynamic>> register(
     String firstNm,
     String lastNm,
     String email,
@@ -25,13 +25,13 @@ Future<Map<String, dynamic>> register(
       'whatsappMobile': '+91$whatsappNo',
       'password': password,
     };
-    
+
     final response = await http.post(
       Uri.parse('$apiUrl/auth/register'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(body),
     );
-   
+
     if (response.statusCode == 200 || response.statusCode == 201) {
       return jsonDecode(response.body);
     } else {
@@ -39,39 +39,66 @@ Future<Map<String, dynamic>> register(
     }
   }
 
-Future<Map<String,dynamic>> registerVerify(String otpId,
-  String code) async {
-    final body = {
-      'otpId':otpId,
-      'code':code,
-    };
-  final response = await http.post(
+  Future<Map<String, dynamic>> registerVerify(String otpId, String code) async {
+    final body = {'otpId': otpId, 'code': code};
+    final response = await http.post(
       Uri.parse('$apiUrl/auth/register/verify'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(body),
     );
-     if (response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       return jsonDecode(response.body);
     } else {
       throw Exception(jsonDecode(response.body));
     }
-}
+  }
 
-Future<Map<String, dynamic>> login(String email, String password) async {
+  Future<Map<String, dynamic>> login(String email, String password) async {
     final response = await http.post(
       Uri.parse('$apiUrl/auth/login'),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'name': email, 'password': password}),
+      body: jsonEncode({'email': email, 'password': password}),
     );
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
+    } else if (response.statusCode == 422) {
+      throw Exception('invalid credentials');
     } else {
       throw Exception('login Failed');
     }
   }
 
-// PRODUCT
+  Future<Map<String, dynamic>> loginVerify(String otpId, String code) async {
+    final body = {'otpId': otpId, 'code': code};
+    final response = await http.post(
+      Uri.parse('$apiUrl/auth/login/verify'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(body),
+    );
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception(jsonDecode(response.body));
+    }
+  }
+
+  Future<bool> logout(String accessToken) async {
+    final response = await http.post(
+      Uri.parse('$apiUrl/auth/logout'),
+      headers: {
+        'authorization': "bearer $accessToken",
+
+        'Accept': 'application/json',
+      },
+    );
+
+    print('logoutsuccesful');
+    return response.statusCode == 200;
+  }
+
+  // Future<Map<String,dynamic>>
+  // PRODUCT
 
   Future<List<Product>> getProducts(int limit, int skip) async {
     final response = await http.get(
@@ -118,7 +145,6 @@ Future<Map<String, dynamic>> login(String email, String password) async {
     }
     throw Exception('Category load Failed');
   }
-
 
   Future<Map<String, dynamic>> getProfile(String token) async {
     final response = await http.get(
@@ -194,6 +220,27 @@ Future<Map<String, dynamic>> login(String email, String password) async {
 
     throw Exception('Failed to load addresses');
   }
-
-
 }
+
+
+/*
+
+firstName: hello, lastName: world, email: sowaxip290@meonvr.com,
+mobile: +918434770642, whatsappMobile: +918434770642, password: Hello@1234
+"userId":"8a999cbd-40c0-47ab-809c-31f2cec48a29",
+"otpId":"f14ec308-3ad2-45cf-8b92-ba425a2e7c1f",
+
+accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4YTk5OWNiZC00MGMwLTQ3YWItODA5Yy0zMWYyY2VjNDhhMjkiLCJpYXQiOjE3ODkzNzk2NTQsImV4cCI6MTc4OTM4MDU1NCwidHlwZSI6ImFjY2VzcyIsInJvbGUiOm51bGwsInRlbmFudElkIjpudWxsLCJqdGkiOiJmNWU1Nzg2Ny1jYzBmLTRiOGMtYTRiOC1hNzg3ODU2MjRkYjEifQ.2s-xWM0URBqtZEbfnUAk9vLO4RosZiV2souROhlc_jk,
+refreshToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4YTk5OWNiZC00MGMwLTQ3YWItODA5Yy0zMWYyY2VjNDhhMjkiLCJpYXQiOjE3ODkzNzk2NTQsImV4cCI6MTc4OTk4NDQ1NCwidHlwZSI6InJlZnJlc2giLCJyb2xlIjpudWxsLCJ0ZW5hbnRJZCI6bnVsbCwianRpIjoiNzNmMzlmZWYtZTg2Ni00YjRkLThmMWEtNzdjNjVjODg1NTkyIn0.whQ28p990xGpp5nbxZDbylgv3D2wMuECL2wYIY26C50,
+tokenType: bearer
+
+*/
+
+
+/* login
+
+
+OTP verify result: {accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4YTk5OWNiZC00MGMwLTQ3YWItODA5Yy0zMWYyY2VjNDhhMjkiLCJpYXQiOjE3ODkzODAzNzAsImV4cCI6MTc4OTM4MTI3MCwidHlwZSI6ImFjY2VzcyIsInJvbGUiOm51bGwsInRlbmFudElkIjpudWxsLCJqdGkiOiIyYjA0OGFiNS1hNjA5LTQyODUtOTU2ZS1mYjI5NzhkYjNiZjcifQ.IlAm10QxopjAGVN-cHFR9O0FH_zERi3QRIcjmQhtLAo, refreshToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4YTk5OWNiZC00MGMwLTQ3YWItODA5Yy0zMWYyY2VjNDhhMjkiLCJpYXQiOjE3ODkzODAzNzAsImV4cCI6MTc4OTk4NTE3MCwidHlwZSI6InJlZnJlc2giLCJyb2xlIjpudWxsLCJ0ZW5hbnRJZCI6bnVsbCwianRpIjoiOGYwMmFmMmYtNDc4Yi00NzBjLTk4NGItYmIxMTgxMDk4ZWRlIn0.VWYbc19CSYe6vQ0N6m8wiLj5V8nqTqNw8nT0FK9oAik, tokenType: bearer}
+
+
+*/

@@ -1,44 +1,85 @@
 import 'package:flutter/material.dart';
 import 'package:karobarone/core/api/api_endpoints.dart';
+import 'package:karobarone/core/service/auth_service.dart';
 import 'package:karobarone/features/home/screens/home.dart';
 import 'package:pinput/pinput.dart';
 
-class OtpScreen extends StatelessWidget {
-  const OtpScreen({super.key, required this.userId, required this.otpId});
-
+class OtpScreen extends StatefulWidget {
+  const OtpScreen({
+    super.key,
+    required this.userId,
+    required this.otpId,
+    required this.purpose,
+  });
+  final String purpose;
   final String userId;
   final String otpId;
 
   @override
+  State<OtpScreen> createState() => _OtpScreenState();
+}
+
+class _OtpScreenState extends State<OtpScreen> {
+  final TextEditingController otpcont = TextEditingController();
+  bool isLoading = false;
+
+  @override
+  void dispose() {
+    otpcont.dispose();
+    super.dispose();
+  }
+
+  Future<Map<String, dynamic>> _registerVerify() async {
+    return await ApiService().registerVerify(widget.otpId, otpcont.text);
+  }
+
+  Future<Map<String, dynamic>> _loginVerify() async {
+    return await ApiService().loginVerify(widget.otpId, otpcont.text);
+  }
+
+  Future<void> verifyOtp() async {
+    setState(() => isLoading = true);
+
+    try {
+      final result = widget.purpose == "login"
+          ? await _loginVerify()
+          : await _registerVerify();
+
+      print('OTP verify result: $result');
+      final accessToken = result['accessToken'];
+      final refreshToken = result['refreshToken'];
+      final tokenType = result['tokenType'];
+
+      await AuthService.instance.saveAuth(
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        tokenType: tokenType,
+        userId: widget.userId,
+      );
+
+      if (!mounted) return;
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => Home()),
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('OTP verification failed: ${e.toString()}')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => isLoading = false);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final TextEditingController otpcont = TextEditingController();
-    // final args = ModalRoute.of(context)!.settings.arguments as Map;
-    // final String contact = args['contact'];
-    // final bool isRegister = args['isRegister'];
-
-    // void pass() async {
-    //   if (otpcont.text == "0000") {
-    //     await AuthService().login(
-    //       name: widget.name,
-    //       mobile: widget.mobile,
-    //       email: widget.email,
-    //     );
-
-    //     Navigator.pushReplacement(
-    //       context,
-    //       MaterialPageRoute(builder: (_) => HomeScreen()),
-    //     );
-    //   }
-    // }
-
-
-final apiservice = ApiService();
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       body: Column(
         children: [
-          // Text("otp screen"),
           Expanded(
             child: Container(child: Center(child: Text("KarobarOne"))),
           ),
@@ -46,7 +87,7 @@ final apiservice = ApiService();
           Expanded(
             flex: 1,
             child: ClipRRect(
-              borderRadius: BorderRadiusGeometry.directional(
+              borderRadius: BorderRadiusDirectional.only(
                 topEnd: Radius.circular(25),
                 topStart: Radius.circular(25),
               ),
@@ -62,7 +103,7 @@ final apiservice = ApiService();
                         "We just send an SMS",
                         style: TextStyle(
                           fontSize: 20,
-                          fontWeight: .bold,
+                          fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
                       ),
@@ -78,12 +119,8 @@ final apiservice = ApiService();
                         Navigator.pop(context);
                       },
                       child: Row(
-                        mainAxisAlignment: .center,
-                        children: [
-                          // Center(child: Text(contact)),
-                          SizedBox(width: 5),
-                          Icon(Icons.edit),
-                        ],
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [SizedBox(width: 5), Icon(Icons.edit)],
                       ),
                     ),
 
@@ -92,7 +129,6 @@ final apiservice = ApiService();
                       child: Pinput(
                         length: 6,
                         controller: otpcont,
-                        
                         animationCurve: Curves.decelerate,
                       ),
                     ),
@@ -100,24 +136,25 @@ final apiservice = ApiService();
                     SizedBox(height: 25),
                     ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(
+                        backgroundColor: WidgetStateProperty.all(
                           Theme.of(context).colorScheme.primary,
                         ),
-                        foregroundColor: WidgetStatePropertyAll(Colors.white),
+                        foregroundColor: WidgetStateProperty.all(Colors.white),
                       ),
-                      onPressed: () {
-                      final result =  apiservice.registerVerify(otpId, otpcont.text);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Home()),
-                        );
-                      },
-                      child: Text("Verify"),
+
+                      onPressed: isLoading ? null : verifyOtp,
+                      child: isLoading
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Text("Verify"),
                     ),
-                    
+
                     SizedBox(height: 10),
                     Column(
-                      mainAxisAlignment: .center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           "Don't receive Code ?",
@@ -129,7 +166,7 @@ final apiservice = ApiService();
                             "Resend",
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.primary,
-                              fontWeight: .bold,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),

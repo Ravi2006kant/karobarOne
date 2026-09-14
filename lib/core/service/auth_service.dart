@@ -22,7 +22,7 @@ class AuthService {
     required String accessToken,
     required String refreshToken,
     required String tokenType,
-    required String userId,
+    required String userId
   }) async {
     await _storage.write(key: _accessTokenKey, value: accessToken);
     await _storage.write(key: _refreshTokenKey, value: refreshToken);

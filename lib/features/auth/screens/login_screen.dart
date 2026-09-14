@@ -1,28 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:karobarone/config/app_routes.dart';
 import 'package:karobarone/core/api/api_endpoints.dart';
 import 'package:karobarone/features/auth/screens/otp_screen.dart';
 import 'package:karobarone/features/auth/screens/register_screen.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
-  TextEditingController mobileCont = TextEditingController();
-  TextEditingController emailCont = TextEditingController();
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final mobileCont = TextEditingController();
+
+  final emailCont = TextEditingController();
+  bool isLoading = false;
   final TextEditingController passCont = TextEditingController();
-  bool isloading = false;
 
-  void navi() async {
-    final data = await ApiService().login(mobileCont.text, passCont.text);
+  Future<void> navi() async {
+    try {
+      setState(() => isLoading = true);
 
-    // final token = data['accessToken'];
-    // final refreshToken = data['refreshToken'];
-    // final username = data['username'];
-    // final prefs = await SharedPreferences.getInstance();
+      final data = await ApiService().login(emailCont.text, passCont.text);
+
+      final userId = data['userId'];
+      final otpId = data['otpId'];
+
+      if (!mounted) return;
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) =>
+              OtpScreen(userId: userId, otpId: otpId, purpose: 'login'),
+        ),
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Login failed: ${e.toString()}")),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => isLoading = false);
+    }
     // await prefs.setString('token', token);
   }
 
+  bool _passHide = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,13 +57,24 @@ class LoginScreen extends StatelessWidget {
         children: [
           Expanded(
             flex: 2,
-            child: SizedBox(child: Center(child: Text("KarobarOne"))),
+            child: SizedBox(
+              child: Center(
+                child: Text(
+                  "KarobarOne",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: .bold,
+                    fontSize: 25,
+                  ),
+                ),
+              ),
+            ),
           ),
 
           Expanded(
             flex: 2,
             child: ClipRRect(
-              borderRadius: BorderRadiusGeometry.directional(
+              borderRadius: BorderRadiusDirectional.only(
                 topEnd: Radius.circular(25),
                 topStart: Radius.circular(25),
               ),
@@ -54,7 +90,7 @@ class LoginScreen extends StatelessWidget {
                         "L O G I N",
                         style: TextStyle(
                           fontSize: 25,
-                          fontWeight: .bold,
+                          fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
@@ -88,7 +124,7 @@ class LoginScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 25),
                       child: TextField(
                         keyboardType: TextInputType.number,
-                        obscureText: true,
+                        obscureText: _passHide,
                         controller: passCont,
                         style: TextStyle(color: Colors.black),
                         decoration: InputDecoration(
@@ -96,6 +132,18 @@ class LoginScreen extends StatelessWidget {
                           hintStyle: TextStyle(color: Colors.black),
                           fillColor: Colors.black,
                           focusColor: Colors.black,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _passHide
+                                  ? Icons.visibility_rounded
+                                  : Icons.visibility_off_rounded,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _passHide = !_passHide;
+                              });
+                            },
+                          ),
                           prefixIcon: Icon(
                             Icons.remove_red_eye_sharp,
                             color: Theme.of(context).colorScheme.primary,
@@ -111,7 +159,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 10),
                     Row(
-                      mainAxisAlignment: .center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           "Don't have account ?",
@@ -130,7 +178,7 @@ class LoginScreen extends StatelessWidget {
                             " Register",
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.primary,
-                              fontWeight: .bold,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -139,25 +187,17 @@ class LoginScreen extends StatelessWidget {
                     SizedBox(height: 15),
                     ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(
+                        backgroundColor: WidgetStateProperty.all(
                           Theme.of(context).colorScheme.primary,
                         ),
-                        foregroundColor: WidgetStatePropertyAll(Colors.white),
+                        foregroundColor: WidgetStateProperty.all(Colors.white),
                       ),
-                      onPressed: isloading
+                      onPressed: isLoading
                           ? null
-                          : () {
-                              navi();
-                              // Navigator.pushNamed(context, AppRoutes.home);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      OtpScreen(userId: '', otpId: ''),
-                                ),
-                              );
+                          : () async {
+                              await navi();
                             },
-                      child: isloading
+                      child: isLoading
                           ? SizedBox(
                               height: 20,
                               width: 20,
