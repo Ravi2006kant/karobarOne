@@ -97,6 +97,35 @@ class ApiService {
     return response.statusCode == 200;
   }
 
+  Future<Map<String, dynamic>> createTenant({
+    required String accessToken,
+    required Map<String, dynamic> tenantData,
+  }) async {
+    final url = Uri.parse('$apiUrl/tenants');
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $accessToken',
+      },
+      body: jsonEncode(tenantData),
+    );
+
+    final responseData = response.body.isNotEmpty
+        ? jsonDecode(response.body)
+        : {};
+    print(response.body);
+    if (response.statusCode == 201) {
+      return responseData;
+    } else {
+      throw Exception(
+        'Failed to create tenant: ${response.statusCode} - $responseData',
+      );
+    }
+  }
+
   // Future<Map<String,dynamic>>
   // PRODUCT
 

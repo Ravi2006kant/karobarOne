@@ -7,9 +7,7 @@ class AuthService {
 
   static const FlutterSecureStorage _storage = FlutterSecureStorage(
     aOptions: AndroidOptions(),
-    iOptions: IOSOptions(
-      accessibility: KeychainAccessibility.first_unlock,
-    ),
+    iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
   );
 
   static const String _accessTokenKey = "access_token";
@@ -17,12 +15,12 @@ class AuthService {
   static const String _tokenTypeKey = "token_type";
   static const String _userIdKey = "user_id";
 
-// fastapi return the tokens
+  // fastapi return the tokens
   Future<void> saveAuth({
     required String accessToken,
     required String refreshToken,
     required String tokenType,
-    required String userId
+    required String userId,
   }) async {
     await _storage.write(key: _accessTokenKey, value: accessToken);
     await _storage.write(key: _refreshTokenKey, value: refreshToken);
@@ -30,6 +28,13 @@ class AuthService {
     await _storage.write(key: _userIdKey, value: userId);
   }
 
+  Future<String> accToken() async {
+    final token = await getAccessToken();
+    if (token == null || token.isEmpty) {
+      throw Exception('Access token is missing or invalid');
+    }
+    return token;
+  }
 
   Future<String?> getAccessToken() async {
     return await _storage.read(key: _accessTokenKey);
@@ -46,17 +51,15 @@ class AuthService {
   Future<String?> getUserId() async {
     return await _storage.read(key: _userIdKey);
   }
-//logout
+
+  //logout
   Future<bool> isLoggedIn() async {
     final token = await getAccessToken();
     return token != null && token.isNotEmpty;
   }
 
   Future<void> updateAccessToken(String newAccessToken) async {
-    await _storage.write(
-      key: _accessTokenKey,
-      value: newAccessToken,
-    );
+    await _storage.write(key: _accessTokenKey, value: newAccessToken);
   }
 
   Future<void> logout() async {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:karobarone/components/like_button.dart';
 import 'package:karobarone/core/api/api_endpoints.dart';
 import 'package:karobarone/features/products/screens/product_detail_screen.dart';
-import 'package:karobarone/practise/api/api_service.dart';
+
 import 'package:karobarone/shared/widgets/loading_indicator.dart';
 
 class ProductListScreen extends StatefulWidget {

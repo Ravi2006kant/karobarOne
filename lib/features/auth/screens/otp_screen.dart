@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:karobarone/core/api/api_endpoints.dart';
 import 'package:karobarone/core/service/auth_service.dart';
 import 'package:karobarone/features/home/screens/home.dart';
+import 'package:karobarone/seller/tenant/new_tenent/create_tenent.dart';
 import 'package:pinput/pinput.dart';
 
 class OtpScreen extends StatefulWidget {
@@ -61,7 +62,7 @@ class _OtpScreenState extends State<OtpScreen> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => Home()),
+        MaterialPageRoute(builder: (_) => CreateTenantScreen()),
       );
     } catch (e) {
       if (mounted) {

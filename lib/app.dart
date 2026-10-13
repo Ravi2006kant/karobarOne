@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
     final themeProvider = context.watch<ThemeProvider>();
     return MaterialApp(
       title: 'KarobarOne',
-      initialRoute: AppRoutes.splash,
+      initialRoute: AppRoutes.login,
       routes: AppRoutes.routes,
       debugShowCheckedModeBanner: false,
       theme: themeProvider.themedata,
